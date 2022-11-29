@@ -5,22 +5,58 @@ const router = express.Router();
 const contactsOperations = require("../../models/contacts");
 
 router.get("/", async (req, res, next) => {
-  const contacts = await contactsOperations.listContacts();
-  res.json({
-    message: "success",
-    code: 200,
-    data: {
-      contacts,
-    },
-  });
+  try {
+    const contacts = await contactsOperations.listContacts();
+    res.json({
+      message: "success",
+      code: 200,
+      data: {
+        contacts,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
+  try {
+    const { contactId } = req.params;
+    const contact = await contactsOperations.getContactById(contactId);
+    res.json({
+      message: "success",
+      code: 200,
+      data: {
+        contact,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post("/", async (req, res, next) => {
-  res.json({ message: "template message" });
+  try {
+    const { name, email, phone } = req.body;
+    if (!name || !email || !phone) {
+      res.status(400).json({ message: "missing required name field" });
+      return;
+    }
+    const contact = {
+      id: "11",
+      ...req.body,
+    };
+    await contactsOperations.addContact(contact);
+    res.status(201).json({
+      message: "success",
+      code: 201,
+      data: {
+        contact,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.delete("/:contactId", async (req, res, next) => {
