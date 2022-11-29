@@ -4,7 +4,7 @@ const router = express.Router();
 
 const contactsOperations = require("../../models/contacts");
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (_, res, next) => {
   try {
     const contacts = await contactsOperations.listContacts();
     res.json({
@@ -39,8 +39,8 @@ router.post("/", async (req, res, next) => {
   try {
     const { name, email, phone } = req.body;
     if (!name || !email || !phone) {
-      res.status(400).json({ message: "missing required name field" });
-      return;
+      return res.status(400).json({ message: "missing required name field" });
+      
     }
     const contact = {
       id: "11",
