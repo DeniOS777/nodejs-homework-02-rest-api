@@ -61,6 +61,11 @@ const updateContact = async (contactId, body) => {
   const data = await fs.readFile(contactsPath);
   const contacts = JSON.parse(data);
   const [contactById] = contacts.filter((contact) => contact.id === contactId);
+  contactById.name = body.name;
+  contactById.email = body.email;
+  contactById.phone = body.phone;
+  await fs.writeFile(contactsPath, JSON.stringify(contacts));
+  return contactById;
 };
 
 module.exports = {

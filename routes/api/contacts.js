@@ -1,4 +1,5 @@
 const express = require("express");
+const { v4: uuidv4 } = require("uuid");
 
 const router = express.Router();
 
@@ -50,7 +51,7 @@ router.post("/", async (req, res, next) => {
       });
     }
     const contact = {
-      id: "11",
+      id: uuidv4(),
       ...req.body,
     };
     await contactsOperations.addContact(contact);
@@ -92,10 +93,13 @@ router.put("/:contactId", async (req, res, next) => {
         message: "missing fields",
       });
     }
+    const contact = await contactsOperations.updateContact(contactId, req.body);
     res.status(200).json({
       message: "success",
       code: 200,
-      data: {},
+      data: {
+        contact,
+      },
     });
   } catch (error) {
     next(error);
