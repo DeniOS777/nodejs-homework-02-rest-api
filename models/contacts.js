@@ -9,7 +9,7 @@ const listContacts = async () => {
     const contacts = JSON.parse(data);
     return contacts;
   } catch (error) {
-    console.log("Not found");
+    console.log("Something went wrong, please try later...", error.message);
   }
 };
 
@@ -23,7 +23,7 @@ const getContactById = async (contactId) => {
     }
     return contactById;
   } catch (error) {
-    console.log("Not found");
+    console.log("Something went wrong, please try later...", error.message);
   }
 };
 
@@ -40,7 +40,7 @@ const removeContact = async (contactId) => {
     await fs.writeFile(contactsPath, JSON.stringify(contacts));
     return removedContact;
   } catch (error) {
-    console.log("Not found");
+    console.log("Something went wrong, please try later...", error.message);
   }
 };
 
@@ -52,20 +52,24 @@ const addContact = async (body) => {
     await fs.writeFile(contactsPath, JSON.stringify(newContacts));
     return body;
   } catch (error) {
-    console.log("Not found");
+    console.log("Something went wrong, please try later...", error.message);
   }
 };
 
 const updateContact = async (contactId, body) => {
-  const data = await fs.readFile(contactsPath);
-  const contacts = JSON.parse(data);
-  const [contactById] = contacts.filter(({ id }) => id === contactId);
-  if (!contactById) return null;
-  contactById.name = body.name;
-  contactById.email = body.email;
-  contactById.phone = body.phone;
-  await fs.writeFile(contactsPath, JSON.stringify(contacts));
-  return contactById;
+  try {
+    const data = await fs.readFile(contactsPath);
+    const contacts = JSON.parse(data);
+    const [contactById] = contacts.filter(({ id }) => id === contactId);
+    if (!contactById) return null;
+    contactById.name = body.name;
+    contactById.email = body.email;
+    contactById.phone = body.phone;
+    await fs.writeFile(contactsPath, JSON.stringify(contacts));
+    return contactById;
+  } catch (error) {
+    console.log("Something went wrong, please try later...", error.message);
+  }
 };
 
 module.exports = {
