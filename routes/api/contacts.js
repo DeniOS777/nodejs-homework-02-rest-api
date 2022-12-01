@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const Joi = require("joi");
 
 const contactsSchema = Joi.object({
-  name: Joi.string().alphanum().min(2).max(30).required(),
+  name: Joi.string().min(2).max(30).required(),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
     .required(),
