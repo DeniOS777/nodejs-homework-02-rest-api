@@ -50,6 +50,7 @@ const addContact = async (body) => {
     const contacts = JSON.parse(data);
     const newContacts = [...contacts, body];
     await fs.writeFile(contactsPath, JSON.stringify(newContacts));
+    return body;
   } catch (error) {
     console.log("Not found");
   }
