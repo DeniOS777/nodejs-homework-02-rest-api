@@ -61,7 +61,9 @@ const updateContact = async (contactId, body) => {
     const data = await fs.readFile(contactsPath);
     const contacts = JSON.parse(data);
     const [contactById] = contacts.filter(({ id }) => id === contactId);
-    if (!contactById) return null;
+    if (!contactById) {
+      return null;
+    }
     contactById.name = body.name;
     contactById.email = body.email;
     contactById.phone = body.phone;
