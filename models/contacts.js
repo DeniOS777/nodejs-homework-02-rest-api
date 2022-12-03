@@ -3,10 +3,11 @@ const path = require("path");
 
 const contactsPath = path.resolve("./models/contacts.json");
 
+const getAllContacts = require("./getAllContacts");
+
 const listContacts = async () => {
   try {
-    const data = await fs.readFile(contactsPath);
-    const contacts = JSON.parse(data);
+    const contacts = await getAllContacts(contactsPath);
     return contacts;
   } catch (error) {
     console.log("Something went wrong, please try later...", error.message);
@@ -15,8 +16,7 @@ const listContacts = async () => {
 
 const getContactById = async (contactId) => {
   try {
-    const data = await fs.readFile(contactsPath);
-    const contacts = JSON.parse(data);
+    const contacts = await getAllContacts(contactsPath);
     const [contactById] = contacts.filter(({ id }) => id === contactId);
     if (!contactById) {
       return null;
@@ -29,8 +29,7 @@ const getContactById = async (contactId) => {
 
 const removeContact = async (contactId) => {
   try {
-    const data = await fs.readFile(contactsPath);
-    const contacts = JSON.parse(data);
+    const contacts = await getAllContacts(contactsPath);
     const index = contacts.findIndex(({ id }) => id === contactId);
     if (index === -1) {
       return null;
@@ -46,8 +45,7 @@ const removeContact = async (contactId) => {
 
 const addContact = async (body) => {
   try {
-    const data = await fs.readFile(contactsPath);
-    const contacts = JSON.parse(data);
+    const contacts = await getAllContacts(contactsPath);
     const newContacts = [...contacts, body];
     await fs.writeFile(contactsPath, JSON.stringify(newContacts));
     return body;
@@ -58,8 +56,7 @@ const addContact = async (body) => {
 
 const updateContact = async (contactId, body) => {
   try {
-    const data = await fs.readFile(contactsPath);
-    const contacts = JSON.parse(data);
+    const contacts = await getAllContacts(contactsPath);
     const [contactById] = contacts.filter(({ id }) => id === contactId);
     if (!contactById) {
       return null;

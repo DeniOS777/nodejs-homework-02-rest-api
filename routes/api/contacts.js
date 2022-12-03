@@ -1,14 +1,8 @@
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
-const Joi = require("joi");
 
-const contactsSchema = Joi.object({
-  name: Joi.string().min(2).max(30).required(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .required(),
-  phone: Joi.string().min(6).required(),
-});
+const { contactsSchema } = require("../../schemas");
+const { validation } = require("../../middlewares");
 
 const contactsOperations = require("../../models/contacts");
 
@@ -51,14 +45,8 @@ router.get("/:contactId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", validation(contactsSchema), async (req, res, next) => {
   try {
-    const { error } = contactsSchema.validate(req.body);
-    if (error) {
-      return res.status(400).json({
-        message: error.details[0].message,
-      });
-    }
     const body = {
       id: uuidv4(),
       ...req.body,
@@ -98,14 +86,8 @@ router.delete("/:contactId", async (req, res, next) => {
   }
 });
 
-router.put("/:contactId", async (req, res, next) => {
+router.put("/:contactId", validation(contactsSchema), async (req, res, next) => {
   try {
-    const { error } = contactsSchema.validate(req.body);
-    if (error) {
-      return res.status(400).json({
-        message: error.details[0].message,
-      });
-    }
     const { contactId } = req.params;
     const contact = await contactsOperations.updateContact(contactId, req.body);
     if (!contact) {
