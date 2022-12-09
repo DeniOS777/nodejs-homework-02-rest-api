@@ -65,17 +65,17 @@ router.post('/', validation(contactsSchema), async (req, res, next) => {
 });
 
 router.delete('/:contactId', async (req, res, next) => {
+  const { contactId } = req.params;
   try {
-    const { contactId } = req.params;
     const contact = await contactsOperations.removeContact(contactId);
     if (!contact) {
       return res.status(404).json({
         message: 'Not found',
       });
     }
-    res.status(200).json({
+    res.json({
       status: 'success',
-      message: 'contact deleted',
+      message: 'contact deleted successfuly',
       code: 200,
       data: {
         contact,

@@ -8,24 +8,12 @@ const getContactById = async contactId => {
   return await Contact.findById(contactId);
 };
 
-// const removeContact = async contactId => {
-//   try {
-//     const contacts = await getAllContacts(contactsPath);
-//     const index = contacts.findIndex(({ id }) => id === contactId);
-//     if (index === -1) {
-//       return null;
-//     }
-//     const removedContact = contacts[index];
-//     contacts.splice(index, 1);
-//     await fs.writeFile(contactsPath, JSON.stringify(contacts));
-//     return removedContact;
-//   } catch (error) {
-//     console.log('Something went wrong, please try later...', error.message);
-//   }
-// };
-
 const addContact = async body => {
   return await Contact.create(body);
+};
+
+const removeContact = async contactId => {
+  return await Contact.findByIdAndDelete(contactId);
 };
 
 // const updateContact = async (contactId, body) => {
@@ -50,8 +38,8 @@ const addContact = async body => {
 module.exports = {
   getContacts,
   getContactById,
-  // removeContact,
   addContact,
+  removeContact,
   // updateContact,
   // updateStatusContact,
 };
