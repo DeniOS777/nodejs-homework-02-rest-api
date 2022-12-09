@@ -21,16 +21,10 @@ const putUpdateContact = Joi.object({
     })
     .required(),
   phone: Joi.string().min(6).required(),
-  favorite: Joi.boolean(),
+  favorite: Joi.boolean().required(),
 });
 
 const patchUpdateContact = Joi.object({
-  name: Joi.string().min(2).max(30),
-  email: Joi.string().email({
-    minDomainSegments: 2,
-    tlds: { allow: ['com', 'net', 'org', 'uk', 'ca'] },
-  }),
-  phone: Joi.string().min(6),
   favorite: Joi.boolean().required(),
 });
 
