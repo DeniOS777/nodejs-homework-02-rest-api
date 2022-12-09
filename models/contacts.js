@@ -16,22 +16,9 @@ const removeContact = async contactId => {
   return await Contact.findByIdAndDelete(contactId);
 };
 
-// const updateContact = async (contactId, body) => {
-//   try {
-//     const contacts = await getAllContacts(contactsPath);
-//     const [contactById] = contacts.filter(({ id }) => id === contactId);
-//     if (!contactById) {
-//       return null;
-//     }
-//     contactById.name = body.name;
-//     contactById.email = body.email;
-//     contactById.phone = body.phone;
-//     await fs.writeFile(contactsPath, JSON.stringify(contacts));
-//     return contactById;
-//   } catch (error) {
-//     console.log('Something went wrong, please try later...', error.message);
-//   }
-// };
+const updateContact = async (contactId, body) => {
+  return await Contact.findByIdAndUpdate(contactId, body, { new: true });
+};
 
 // const updateStatusContact = (contactId, body) => {}
 
@@ -40,6 +27,6 @@ module.exports = {
   getContactById,
   addContact,
   removeContact,
-  // updateContact,
+  updateContact,
   // updateStatusContact,
 };

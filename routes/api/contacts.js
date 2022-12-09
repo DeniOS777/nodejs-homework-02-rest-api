@@ -90,8 +90,8 @@ router.put(
   '/:contactId',
   validation(contactsSchema),
   async (req, res, next) => {
+    const { contactId } = req.params;
     try {
-      const { contactId } = req.params;
       const contact = await contactsOperations.updateContact(
         contactId,
         req.body
