@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const addContact = Joi.object({
+const add = Joi.object({
   name: Joi.string().min(2).max(30).required(),
   email: Joi.string()
     .email({
@@ -12,7 +12,7 @@ const addContact = Joi.object({
   favorite: Joi.boolean().default(false),
 });
 
-const putUpdateContact = Joi.object({
+const putUpdate = Joi.object({
   name: Joi.string().min(2).max(30).required(),
   email: Joi.string()
     .email({
@@ -24,12 +24,12 @@ const putUpdateContact = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-const patchUpdateContact = Joi.object({
+const patchUpdate = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
 module.exports = {
-  addContact,
-  putUpdateContact,
-  patchUpdateContact,
+  add,
+  putUpdate,
+  patchUpdate,
 };
