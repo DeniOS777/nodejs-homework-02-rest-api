@@ -21,6 +21,7 @@ const putUpdateContact = Joi.object({
     })
     .required(),
   phone: Joi.string().min(6).required(),
+  favorite: Joi.boolean(),
 });
 
 const patchUpdateContact = Joi.object({
