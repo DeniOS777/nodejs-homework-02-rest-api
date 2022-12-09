@@ -1,5 +1,5 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 
 const { contactsSchema } = require('../../schemas');
 const { validation } = require('../../middlewares');
@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/', async (_, res, next) => {
   try {
-    const contacts = await contactsOperations.listContacts();
+    const contacts = await contactsOperations.getContacts();
     res.json({
       message: 'success',
       code: 200,
@@ -48,7 +48,7 @@ router.get('/:contactId', async (req, res, next) => {
 router.post('/', validation(contactsSchema), async (req, res, next) => {
   try {
     const body = {
-      id: uuidv4(),
+      favorite: false,
       ...req.body,
     };
     const contact = await contactsOperations.addContact(body);

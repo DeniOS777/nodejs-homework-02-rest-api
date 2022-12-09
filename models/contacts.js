@@ -1,6 +1,6 @@
 const Contact = require('./contact');
 
-const listContacts = async () => {
+const getContacts = async () => {
   return await Contact.find();
 };
 
@@ -24,16 +24,9 @@ const getContactById = async contactId => {
 //   }
 // };
 
-// const addContact = async body => {
-//   try {
-//     const contacts = await getAllContacts(contactsPath);
-//     const newContacts = [...contacts, body];
-//     await fs.writeFile(contactsPath, JSON.stringify(newContacts));
-//     return body;
-//   } catch (error) {
-//     console.log('Something went wrong, please try later...', error.message);
-//   }
-// };
+const addContact = async body => {
+  return await Contact.create(body);
+};
 
 // const updateContact = async (contactId, body) => {
 //   try {
@@ -52,10 +45,13 @@ const getContactById = async contactId => {
 //   }
 // };
 
+// const updateStatusContact = (contactId, body) => {}
+
 module.exports = {
-  listContacts,
+  getContacts,
   getContactById,
   // removeContact,
-  // addContact,
+  addContact,
   // updateContact,
+  // updateStatusContact,
 };
