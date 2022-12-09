@@ -4,18 +4,9 @@ const listContacts = async () => {
   return await Contact.find();
 };
 
-// const getContactById = async contactId => {
-//   try {
-//     const contacts = await getAllContacts(contactsPath);
-//     const [contactById] = contacts.filter(({ id }) => id === contactId);
-//     if (!contactById) {
-//       return null;
-//     }
-//     return contactById;
-//   } catch (error) {
-//     console.log('Something went wrong, please try later...', error.message);
-//   }
-// };
+const getContactById = async contactId => {
+  return await Contact.findById(contactId);
+};
 
 // const removeContact = async contactId => {
 //   try {
@@ -63,7 +54,7 @@ const listContacts = async () => {
 
 module.exports = {
   listContacts,
-  // getContactById,
+  getContactById,
   // removeContact,
   // addContact,
   // updateContact,
