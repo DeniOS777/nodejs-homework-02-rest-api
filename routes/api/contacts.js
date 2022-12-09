@@ -1,7 +1,11 @@
 const express = require('express');
-// const { v4: uuidv4 } = require('uuid');
 
-const { contactsSchema } = require('../../schemas');
+const {
+  addContact,
+  putUpdateContact,
+  patchUpdateContact,
+} = require('../../schemas');
+
 const { validation } = require('../../middlewares');
 
 const contactsOperations = require('../../models/contacts');
@@ -45,7 +49,7 @@ router.get('/:contactId', async (req, res, next) => {
   }
 });
 
-router.post('/', validation(contactsSchema), async (req, res, next) => {
+router.post('/', validation(addContact), async (req, res, next) => {
   try {
     const body = {
       favorite: false,
@@ -88,7 +92,7 @@ router.delete('/:contactId', async (req, res, next) => {
 
 router.put(
   '/:contactId',
-  validation(contactsSchema),
+  validation(putUpdateContact),
   async (req, res, next) => {
     const { contactId } = req.params;
     try {
@@ -114,14 +118,34 @@ router.put(
   }
 );
 
-router.patch('/:contactId/favorite', async (req, res, next) => {
-  try {
+router.patch(
+  '/:contactId/favorite',
+  validation(patchUpdateContact),
+  async (req, res, next) => {
     const { contactId } = req.params;
-    const contact = await contactsOperations.updateContact(contactId, req.body);
-    return contact;
-  } catch (error) {
-    next(error);
+    try {
+      const contact = await contactsOperations.updateStatusContact(
+        contactId,
+        req.body
+      );
+      if (!contact) {
+        return res.status(404).json({
+          status: 'fail',
+          code: 404,
+          message: 'Not found',
+        });
+      }
+      res.json({
+        status: 'success',
+        code: 200,
+        data: {
+          contact,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = router;

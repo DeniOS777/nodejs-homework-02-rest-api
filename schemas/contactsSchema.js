@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const contactsSchema = Joi.object({
+const addContact = Joi.object({
   name: Joi.string().min(2).max(30).required(),
   email: Joi.string()
     .email({
@@ -12,4 +12,29 @@ const contactsSchema = Joi.object({
   favorite: Joi.boolean().default(false),
 });
 
-module.exports = contactsSchema;
+const putUpdateContact = Joi.object({
+  name: Joi.string().min(2).max(30).required(),
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ['com', 'net', 'org', 'uk', 'ca'] },
+    })
+    .required(),
+  phone: Joi.string().min(6).required(),
+});
+
+const patchUpdateContact = Joi.object({
+  name: Joi.string().min(2).max(30),
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ['com', 'net', 'org', 'uk', 'ca'] },
+  }),
+  phone: Joi.string().min(6),
+  favorite: Joi.boolean().required(),
+});
+
+module.exports = {
+  addContact,
+  putUpdateContact,
+  patchUpdateContact,
+};
