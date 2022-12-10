@@ -8,7 +8,9 @@ const add = Joi.object({
       tlds: { allow: ['com', 'net', 'org', 'uk', 'ca'] },
     })
     .required(),
-  phone: Joi.string().min(6).required(),
+  phone: Joi.string()
+    .pattern(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/, 'numbers')
+    .required(),
   favorite: Joi.boolean().default(false),
 });
 
