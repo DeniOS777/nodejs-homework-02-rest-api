@@ -24,11 +24,11 @@ app.use((_, res, __) => {
 });
 
 app.use((err, _, res, __) => {
-  res.status(500).json({
+  const { status = 500, message = 'Internal Server Error' } = err;
+  res.status(status).json({
     status: 'fail',
-    code: 500,
-    message: err.message,
-    data: 'Internal Server Error',
+    code: status,
+    message: message,
   });
 });
 
