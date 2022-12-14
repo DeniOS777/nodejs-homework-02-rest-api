@@ -1,4 +1,4 @@
-const Contact = require('../../models/contact');
+const { Contact } = require('../../models');
 
 const getById = async (req, res, next) => {
   try {
@@ -10,7 +10,7 @@ const getById = async (req, res, next) => {
         message: 'Not found',
       });
     }
-    
+
     res.status(200).json({
       message: 'success',
       code: 200,
