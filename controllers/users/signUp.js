@@ -1,7 +1,7 @@
 const { Conflict } = require('http-errors');
 const { User } = require('../../models');
 
-const signUp = async (req, res, next) => {
+const signup = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -30,4 +30,4 @@ const signUp = async (req, res, next) => {
   }
 };
 
-module.exports = signUp;
+module.exports = signup;

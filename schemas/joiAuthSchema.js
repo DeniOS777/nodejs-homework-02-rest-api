@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const joiSignUpSchema = Joi.object({
+const joiAuthSchema = Joi.object({
   email: Joi.string()
     .email({
       minDomainSegments: 2,
@@ -13,4 +13,4 @@ const joiSignUpSchema = Joi.object({
     .default('starter'),
 });
 
-module.exports = joiSignUpSchema;
+module.exports = joiAuthSchema;

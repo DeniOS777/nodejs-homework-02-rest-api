@@ -1,7 +1,7 @@
-const contactsSchema = require('./contactsSchema');
-const joiSignUpSchema = require('./signUpSchema');
+const joiContactsSchema = require('./joiContactsSchema');
+const joiAuthSchema = require('./joiAuthSchema');
 
 module.exports = {
-  contactsSchema,
-  joiSignUpSchema,
+  joiContactsSchema,
+  joiAuthSchema,
 };
