@@ -6,7 +6,7 @@ const { User } = require('../models');
 
 const { SECRET_KEY } = process.env;
 
-const validationToken = async (req, res, next) => {
+const validationToken = async (req, _, next) => {
   const { authorization } = req.headers;
   try {
     if (!authorization) {
