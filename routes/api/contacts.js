@@ -2,11 +2,13 @@ const express = require('express');
 
 const { joiContactsSchema } = require('../../schemas');
 
-const { validation, isValidId } = require('../../middlewares');
+const { validation, isValidId, validationToken } = require('../../middlewares');
 
 const { contacts: ctrl } = require('../../controllers');
 
 const router = express.Router();
+
+router.use(validationToken);
 
 router.get('/', ctrl.getAll);
 
