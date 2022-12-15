@@ -2,7 +2,7 @@ const { Conflict } = require('http-errors');
 const { User } = require('../../models');
 
 const signup = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, subscription } = req.body;
 
   try {
     const user = await User.findOne({ email });
@@ -11,7 +11,7 @@ const signup = async (req, res, next) => {
       throw new Conflict('Email in use');
     }
 
-    const newUser = new User({ email });
+    const newUser = new User({ email, subscription });
     newUser.setPassword(password);
     newUser.save();
 
@@ -21,7 +21,7 @@ const signup = async (req, res, next) => {
       data: {
         user: {
           email,
-          subscription: req.body?.subscription || 'starter',
+          subscription: subscription || 'starter',
         },
       },
     });

@@ -33,6 +33,10 @@ userSchema.methods.checkPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
+userSchema.methods.setToken = function (token) {
+  this.token = token;
+};
+
 const User = model('user', userSchema);
 
 module.exports = User;

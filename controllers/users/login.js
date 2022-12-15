@@ -17,6 +17,9 @@ const login = async (req, res, next) => {
     }
 
     const token = jwt.sign({ id: user._id }, SECRET_KEY);
+    user.setToken(token);
+    user.save();
+
     res.json({
       status: 'success',
       code: 200,
@@ -24,7 +27,7 @@ const login = async (req, res, next) => {
         token,
         user: {
           email,
-          subscription: req.body?.subscription || 'starter',
+          subscription: user.subscription,
         },
       },
     });
