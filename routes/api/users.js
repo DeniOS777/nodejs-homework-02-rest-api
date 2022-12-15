@@ -13,4 +13,6 @@ router.post('/login', validation(joiAuthSchema), ctrl.login);
 
 router.get('/logout', validationToken, ctrl.logout);
 
+router.get('/current', validationToken, ctrl.current);
+
 module.exports = router;
