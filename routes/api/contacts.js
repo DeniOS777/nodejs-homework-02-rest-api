@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { add, putUpdate, patchUpdate } = require('../../schemas');
+const { contactsSchema } = require('../../schemas');
 
 const { validation, isValidId } = require('../../middlewares');
 
@@ -12,16 +12,21 @@ router.get('/', ctrl.getAll);
 
 router.get('/:contactId', isValidId, ctrl.getById);
 
-router.post('/', validation(add), ctrl.add);
+router.post('/', validation(contactsSchema.add), ctrl.add);
 
 router.delete('/:contactId', isValidId, ctrl.remove);
 
-router.put('/:contactId', isValidId, validation(putUpdate), ctrl.putUpdate);
+router.put(
+  '/:contactId',
+  isValidId,
+  validation(contactsSchema.putUpdate),
+  ctrl.putUpdate
+);
 
 router.patch(
   '/:contactId/favorite',
   isValidId,
-  validation(patchUpdate),
+  validation(contactsSchema.patchUpdate),
   ctrl.patchUpdate
 );
 

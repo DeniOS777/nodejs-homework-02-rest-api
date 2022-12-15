@@ -1,3 +1,7 @@
 const contactsSchema = require('./contactsSchema');
+const joiSignUpSchema = require('./signUpSchema');
 
-module.exports = contactsSchema;
+module.exports = {
+  contactsSchema,
+  joiSignUpSchema,
+};

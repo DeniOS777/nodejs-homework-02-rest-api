@@ -1,9 +1,12 @@
 const express = require('express');
 
-const { users: ctrl } = require('../../controllers');
-
 const router = express.Router();
 
-router.post('/signup', ctrl.signup);
+const { validation } = require('../../middlewares');
+const { joiSignUpSchema } = require('../../schemas');
+
+const { users: ctrl } = require('../../controllers');
+
+router.post('/signup', validation(joiSignUpSchema), ctrl.signup);
 
 module.exports = router;

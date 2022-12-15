@@ -21,7 +21,7 @@ const signUp = async (req, res, next) => {
       data: {
         user: {
           email,
-          subscription: 'starter' || req.body?.subscription,
+          subscription: req.body?.subscription || 'starter',
         },
       },
     });
