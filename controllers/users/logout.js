@@ -11,9 +11,7 @@ const logout = async (req, res, next) => {
     }
     user.clearToken();
     user.save();
-    res.status(204).json({
-      status: 'success',
-    });
+    res.status(204).json();
   } catch (error) {
     next(error);
   }
