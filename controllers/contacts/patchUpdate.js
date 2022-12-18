@@ -1,12 +1,12 @@
-const contactsOperations = require('../../models/contacts');
+const { Contact } = require('../../models');
 
 const patchUpdate = async (req, res, next) => {
   const { contactId } = req.params;
   try {
-    const contact = await contactsOperations.updateStatusContact(
-      contactId,
-      req.body
-    );
+    const contact = await Contact.findByIdAndUpdate(contactId, req.body, {
+      new: true,
+    });
+
     if (!contact) {
       return res.status(404).json({
         status: 'fail',
@@ -14,6 +14,7 @@ const patchUpdate = async (req, res, next) => {
         message: 'Not found',
       });
     }
+
     res.json({
       status: 'success',
       code: 200,
