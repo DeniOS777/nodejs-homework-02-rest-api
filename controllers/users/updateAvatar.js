@@ -12,10 +12,10 @@ const updateAvatar = async (req, res, next) => {
     const [extension] = originalname.split('.').reverse();
     const avatarName = `${_id}.${extension}`;
     const newPath = path.join(uplaodDir, avatarName);
-    const avatarURL = path.join('/avatar', avatarName);
+    const avatarURL = path.join('/avatars', avatarName);
     console.log(avatarName);
     await fs.rename(tempPath, newPath);
-    await User.findByIdAndUpdate(_id, avatarURL);
+    await User.findByIdAndUpdate(_id, { avatarURL });
 
     res.json({
       status: 'success',

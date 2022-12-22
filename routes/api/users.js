@@ -13,12 +13,25 @@ const multerStorage = multer.diskStorage({
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
+});
+
+const upload = multer({
+  storage: multerStorage,
   limits: {
     fileSize: 2097152,
   },
-});
+  fileFilter: (req, file, cb) => {
+    const fileSize = parseInt(req.headers['content-length']);
 
-const upload = multer({ storage: multerStorage });
+    if (fileSize > 2097152) {
+      const error = new Error();
+      error.status = 400;
+      error.message = 'The file must be no more than 2Mb';
+      return cb(error);
+    }
+    cb(null, true);
+  },
+});
 
 const { validation, validationToken } = require('../../middlewares');
 const { joiAuthSchema, joiUpdateSubscriptionSchema } = require('../../schemas');
