@@ -1,5 +1,8 @@
 const fs = require('fs/promises');
 const path = require('path');
+const Jimp = require('jimp');
+const { NotFound } = require('http-errors');
+
 const { User } = require('../../models');
 
 const uploadDir = path.join(__dirname, '../../', 'public', 'avatars');
@@ -13,7 +16,12 @@ const updateAvatar = async (req, res, next) => {
     const avatarName = `${_id}.${extension}`;
     const avatarURL = path.join('/avatars', avatarName);
     const newPath = path.join(uploadDir, avatarName);
-    await fs.rename(tempPath, newPath);
+
+    await Jimp.read(tempPath)
+      .then(image => image.resize(250, 250).quality(50).write(newPath))
+      .catch(error => next(new NotFound(error.message)));
+
+    await fs.unlink(tempPath);
     await User.findByIdAndUpdate(_id, { avatarURL });
 
     res.json({
@@ -21,7 +29,7 @@ const updateAvatar = async (req, res, next) => {
       avatarURL,
     });
   } catch (error) {
-    await fs.unlink(tempPath);
+    // await fs.unlink(tempPath);
     next(error);
   }
 };
