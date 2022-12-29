@@ -2,6 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
+const { uploadAvatars: upload } = require('../../helpers');
+
 const { validation, validationToken } = require('../../middlewares');
 const { joiAuthSchema, joiUpdateSubscriptionSchema } = require('../../schemas');
 
@@ -20,6 +22,13 @@ router.patch(
   validationToken,
   validation(joiUpdateSubscriptionSchema),
   ctrl.updateSubscription
+);
+
+router.patch(
+  '/avatars',
+  validationToken,
+  upload.single('avatar'),
+  ctrl.updateAvatar
 );
 
 module.exports = router;
