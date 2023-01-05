@@ -1,5 +1,7 @@
 const gravatar = require('gravatar');
+const { v4 } = require('uuid');
 const { Conflict } = require('http-errors');
+
 const { User } = require('../../models');
 
 const signup = async (req, res, next) => {
