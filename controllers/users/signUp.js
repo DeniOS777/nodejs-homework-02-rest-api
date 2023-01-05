@@ -4,6 +4,8 @@ const { Conflict } = require('http-errors');
 
 const { User } = require('../../models');
 
+const { sendConfirmEmail } = require('../../helpers');
+
 const signup = async (req, res, next) => {
   const { email, password, subscription } = req.body;
 
@@ -15,9 +17,22 @@ const signup = async (req, res, next) => {
     }
     const avatarURL = gravatar.url(email);
 
-    const newUser = new User({ email, subscription, avatarURL });
+    const verificationToken = v4();
+
+    const newUser = new User({
+      email,
+      subscription,
+      avatarURL,
+      verificationToken,
+    });
     newUser.setPassword(password);
     newUser.save();
+
+    await sendConfirmEmail({
+      to: 'denios777@gmail.com',
+      subject: 'Please confirm your email',
+      html: `Click <a href='http://localhost:3001/api/users/verify/${verificationToken}'>сonfirm email</a> for verify your registration`,
+    });
 
     res.status(201).json({
       status: 'success',
