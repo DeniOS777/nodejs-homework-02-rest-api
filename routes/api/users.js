@@ -5,11 +5,23 @@ const router = express.Router();
 const { uploadAvatars: upload } = require('../../helpers');
 
 const { validation, validationToken } = require('../../middlewares');
-const { joiAuthSchema, joiUpdateSubscriptionSchema } = require('../../schemas');
+const {
+  joiAuthSchema,
+  joiUpdateSubscriptionSchema,
+  joiVerificationSchema,
+} = require('../../schemas');
 
 const { users: ctrl } = require('../../controllers');
 
 router.post('/signup', validation(joiAuthSchema), ctrl.signup);
+
+router.get('/verify/:verificationToken', ctrl.confirmSignup);
+
+router.post(
+  '/verify',
+  validation(joiVerificationSchema),
+  ctrl.resendVerificationToken
+);
 
 router.post('/login', validation(joiAuthSchema), ctrl.login);
 
